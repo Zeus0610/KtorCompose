@@ -7,6 +7,7 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -15,6 +16,9 @@ import java.util.*
 fun Application.routingModule() {
     install(ContentNegotiation) {
         json()
+    }
+    install(CORS) {
+        anyHost()  //quitar despues
     }
     val secret = environment.config.property("jwt.secret").getString()
     val issuer = environment.config.property("jwt.issuer").getString()
@@ -32,6 +36,10 @@ fun Application.routingModule() {
                     .withExpiresAt(Date(System.currentTimeMillis() + 120 * 1000))
                     .sign(Algorithm.HMAC256(secret))
                 call.respond(hashMapOf("token" to token))
+            }
+
+            get("/greetings") {
+                call.respond(mapOf("message" to "greetings from server"))
             }
 
             authenticate("auth-jwt") {

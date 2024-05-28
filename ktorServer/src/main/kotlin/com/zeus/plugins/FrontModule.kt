@@ -6,9 +6,13 @@ import io.ktor.server.routing.*
 
 fun Application.frontModule() {
     routing {
-        singlePageApplication {
+        /*singlePageApplication {
             useResources = true
             react("spa")
+        }*/
+        staticResources("", "static") {
+            default("index.html")
+            preCompressed(CompressedFileType.GZIP)
         }
     }
 }

@@ -1,0 +1,118 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
+plugins {
+    kotlin("multiplatform")
+    kotlin("plugin.serialization")
+    id("org.jetbrains.compose")
+    id("com.android.application")
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
+kotlin {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        add(project.projectDir.path)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
+
+    androidTarget {
+        /*compilerOptions {
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        }*/
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
+
+    jvm("desktop")
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iostarget ->
+        iostarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        val desktopMain by getting
+
+        androidMain.dependencies {
+            implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+            implementation("androidx.activity:activity-compose:1.9.0")
+        }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha03")
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-beta02")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+            /*implementation("io.ktor:ktor-client-core:2.3.11")
+            implementation("io.ktor:ktor-client-cio:2.3.11")
+            implementation("io.ktor:ktor-client-logging:2.3.11")
+            implementation("io.ktor:ktor-client-resources:2.3.11")*/
+            //implementation("io.ktor:ktor-client-okhttp:2.3.11")
+        }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
+        wasmJsMain.dependencies {
+        }
+    }
+}
+
+android {
+    namespace = "org.zeus.kotlin_multiplatform"
+    compileSdk = 34
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+    defaultConfig {
+        applicationId = "org.zeus.kotlin_multiplatform"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    dependencies {
+        debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
+    }
+}
