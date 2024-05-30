@@ -2,3 +2,38 @@
 GET http://localhost/api/greetings
 
 ###
+
+POST http://localhost/api/login
+Content-Type: application/json
+
+{
+  "username": "Zeus",
+  "password": "123456"
+}
+> {% client.global.set("token", response.body.token) %}
+###
+
+GET http://localhost/api/home
+Authorization: Bearer {{token}}
+
+###
+
+GET http://localhost/api/content/Clannad
+Authorization: Bearer {{token}}
+
+###
+
+GET http://localhost/api/content/Halo Fall of Reach
+Authorization: Bearer {{token}}
+
+###
+
+GET http://localhost/api/video/Clannad/Clannad-Ep1/Clannad-Ep1.mpd
+Authorization: Bearer {{token}}
+
+###
+
+GET http://localhost/api/video/Halo Fall of Reach/Halo Fall of Reach.mpd
+Authorization: Bearer {{token}}
+
+###
