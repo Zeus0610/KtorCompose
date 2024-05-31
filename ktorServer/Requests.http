@@ -37,3 +37,7 @@ GET http://localhost/api/video/Halo Fall of Reach/Halo Fall of Reach.mpd
 Authorization: Bearer {{token}}
 
 ###
+
+GET http://localhost/
+
+###
