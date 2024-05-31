@@ -1,17 +1,13 @@
 package com.zeus.compose.utils
 
-import kotlinx.browser.document
+import com.zeus.compose.data.repository.getLoginRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
 
-actual fun hasSession(): Boolean {
-    return getCookie("user_session").isNullOrBlank().not()
-}
-
-private fun getCookie(name: String): String? {
-    val value = document.cookie
-    val parts = value.split("$name=")
-    return if (parts.size == 2) {
-        parts[1].split(";").first()
-    } else {
-        null
-    }
+actual suspend fun hasSession(): Boolean {
+    println("Welcome Back")
+    val repo = getLoginRepository()
+    val res = repo.validateSession().first()
+    println("hasSession: $res")
+    return res
 }

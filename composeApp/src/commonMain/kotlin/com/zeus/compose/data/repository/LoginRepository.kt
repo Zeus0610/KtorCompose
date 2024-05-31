@@ -8,4 +8,5 @@ expect fun getLoginRepository(): LoginRepository
 
 interface LoginRepository {
     fun login(userCredentials: UserCredentials): Flow<User>
+    fun validateSession(): Flow<Boolean>
 }

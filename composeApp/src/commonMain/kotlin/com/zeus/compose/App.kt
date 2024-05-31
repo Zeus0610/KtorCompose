@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,12 +26,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme(
-        colorScheme = darkColorScheme()
+        colorScheme = lightColorScheme()
     ) {
         val loginViewModel = viewModel {
             Module.getLoginViewModel()
         }
-        val hasSession = mutableStateOf(false)
+        val hasSession = remember { mutableStateOf(false) }
 
         LaunchedEffect(Unit) {
             hasSession.value = hasSession()

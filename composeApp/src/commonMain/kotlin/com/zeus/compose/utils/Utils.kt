@@ -1,3 +1,3 @@
 package com.zeus.compose.utils
 
-expect fun hasSession(): Boolean
+expect suspend fun hasSession(): Boolean

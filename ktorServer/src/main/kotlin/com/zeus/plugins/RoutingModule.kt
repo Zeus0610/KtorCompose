@@ -48,30 +48,9 @@ fun Application.routingModule() {
                 ))
             }
 
-            get("/greetings") {
-                call.respond(mapOf("message" to "greetings from server"))
-            }
-
-            route("/video") {
-                get("/{content}/{chapter}/{file}") {
-                    val content = call.parameters["content"]?: ""
-                    val chapter = call.parameters["chapter"]?: ""
-                    val fileName = call.parameters["file"]?: ""
-                    val file = filesRepository.getFile("$content/$chapter/$fileName")
-                    call.respondFile(file)
-                }
-
-                get("/{content}/{file}") {
-                    val content = call.parameters["content"]?: ""
-                    val fileName = call.parameters["file"]?: ""
-                    val file = filesRepository.getFile("$content/$fileName")
-                    call.respondFile(file)
-                }
-            }
-
             authenticate("auth-jwt") {
-                get("/hello") {
-                    call.respond("Is logged")
+                get("/validateSession") {
+                    call.respond(true)
                 }
 
                 get("/home") {
@@ -88,6 +67,23 @@ fun Application.routingModule() {
                         val content = call.parameters["content"]?: ""
                         val filesContent = filesRepository.getSingleContent(content)
                         call.respond(mapOf("result" to filesContent))
+                    }
+                }
+
+                route("/video") {
+                    get("/{content}/{chapter}/{file}") {
+                        val content = call.parameters["content"]?: ""
+                        val chapter = call.parameters["chapter"]?: ""
+                        val fileName = call.parameters["file"]?: ""
+                        val file = filesRepository.getFile("$content/$chapter/$fileName")
+                        call.respondFile(file)
+                    }
+
+                    get("/{content}/{file}") {
+                        val content = call.parameters["content"]?: ""
+                        val fileName = call.parameters["file"]?: ""
+                        val file = filesRepository.getFile("$content/$fileName")
+                        call.respondFile(file)
                     }
                 }
             }

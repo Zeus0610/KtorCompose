@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.zeus.model.UserSession
 import io.ktor.http.*
+import io.ktor.http.auth.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -12,7 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.sessions.*
 import io.ktor.util.*
 
-fun  Application.securityModule() {
+fun Application.securityModule() {
     install(CORS) {
         allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowHeader(HttpHeaders.ContentType)
@@ -26,12 +27,25 @@ fun  Application.securityModule() {
     install(Authentication) {
         jwt("auth-jwt") {
             realm = mRealm
-            verifier(JWT
+            verifier(
+                JWT
                     .require(Algorithm.HMAC256(secret))
                     .withAudience(audience)
                     .withIssuer(issuer)
                     .build()
             )
+
+            authHeader { call ->
+                val session = call.sessions.get<UserSession>()
+
+                try {
+                    parseAuthorizationHeader("Bearer ${session?.userToken}")
+                } catch (e: IllegalArgumentException) {
+                    e.message
+                    null
+                }
+            }
+
             validate { credential ->
                 if (credential.payload.getClaim("username").asString().isNotBlank()) {
                     JWTPrincipal(credential.payload)
@@ -49,7 +63,7 @@ fun  Application.securityModule() {
     val sessionSecretSignKey = environment.config.property("session.secretSignKey").getString()
     install(Sessions) {
         val secretEncryptKey = hex(sessionSecretEncryptKey)
-        val secretSignKey =  hex(sessionSecretSignKey)
+        val secretSignKey = hex(sessionSecretSignKey)
         cookie<UserSession>("user_session") {
             cookie.path = "/"
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretSignKey))
