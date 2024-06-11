@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KotlinMultiplatform</title>
     <script type="application/javascript" src="composeApp.js"></script>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<div id="video_player_div" hidden="hidden">
-    <video id="videoPlayer" controls></video>
+<div id="container">
+    <div id="video_player_div" style="display: none">
+        <video id="videoPlayer" controls></video>
+    </div>
+    <canvas id="ComposeTarget"></canvas>
 </div>
-<canvas id="ComposeTarget"></canvas>
 </body>
 <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
 </html>

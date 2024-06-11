@@ -5,14 +5,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.zeus.compose.data.repository.getHomeRepository
-import com.zeus.compose.data.repository.getLoginRepository
-import com.zeus.compose.domain.usecases.GetGreetingsUseCase
-import com.zeus.compose.domain.usecases.LoginUseCase
 import com.zeus.compose.ui.screens.HomeScreen
-import com.zeus.compose.ui.screens.LoginScreen
-import com.zeus.compose.ui.viewModels.HomeViewModel
-import com.zeus.compose.ui.viewModels.LoginViewModel
+import com.zeus.compose.ui.screens.PlayerScreen
 
 @Composable
 fun MainNavGraph(
@@ -27,12 +21,20 @@ fun MainNavGraph(
         startDestination = NavScreens.Home.route
     ) {
         composable(NavScreens.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onContentClick = {
+                    navController.navigate(NavScreens.Player.route)
+                }
+            )
+        }
+        composable(NavScreens.Player.route) {
+            PlayerScreen("http://localhost/api/video/Halo Fall of Reach/Halo Fall of Reach.mpd")
         }
     }
 }
 
 sealed class NavScreens(val route: String) {
     data object Home : NavScreens("home")
-    data object Login : NavScreens("login")
+    //data object Login : NavScreens("login")
+    data object Player: NavScreens("player")
 }
