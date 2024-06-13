@@ -26,7 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme(
-        colorScheme = lightColorScheme()
+        colorScheme = darkColorScheme()
     ) {
         val loginViewModel = viewModel {
             Module.getLoginViewModel()
@@ -73,17 +73,6 @@ fun MainContent() {
                             icon = { Icon(item.second, item.first) }
                         )
                     }
-
-                    /*item.first == "Login" -> {
-                        NavigationRailItem(
-                            selected = index == selectedItem,
-                            onClick = {
-                                selectedItem = index
-                                navController.navigate(NavScreens.Login.route)
-                            },
-                            icon = { Icon(item.second, item.first) }
-                        )
-                    }*/
                 }
             }
         }

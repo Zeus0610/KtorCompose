@@ -17,6 +17,8 @@ fun Application.securityModule() {
     install(CORS) {
         allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowHeader(HttpHeaders.ContentType)
+        allowHost("0.0.0.0:8080")
+        allowHost("localhost:8080")
         anyHost() //quitar despues
         allowCredentials = true
     }

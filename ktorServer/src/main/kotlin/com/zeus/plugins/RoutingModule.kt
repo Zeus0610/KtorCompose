@@ -48,6 +48,24 @@ fun Application.routingModule() {
                 ))
             }
 
+            route("/video") {
+                get("/{content}/{chapter}/{file}") {
+                    val content = call.parameters["content"]?: ""
+                    val chapter = call.parameters["chapter"]?: ""
+                    val fileName = call.parameters["file"]?: ""
+                    val file = filesRepository.getFile("$content/$chapter/$fileName")
+                    call.respondFile(file)
+                }
+
+                get("/{content}/{file}") {
+                    val content = call.parameters["content"]?: ""
+                    val fileName = call.parameters["file"]?: ""
+                    val file = filesRepository.getFile("$content/$fileName")
+                    call.respondFile(file)
+                }
+            }
+
+
             authenticate("auth-jwt") {
                 get("/validateSession") {
                     call.respond(true)
@@ -70,7 +88,7 @@ fun Application.routingModule() {
                     }
                 }
 
-                route("/video") {
+                /*route("/video") {
                     get("/{content}/{chapter}/{file}") {
                         val content = call.parameters["content"]?: ""
                         val chapter = call.parameters["chapter"]?: ""
@@ -85,7 +103,7 @@ fun Application.routingModule() {
                         val file = filesRepository.getFile("$content/$fileName")
                         call.respondFile(file)
                     }
-                }
+                }*/
             }
         }
     }
