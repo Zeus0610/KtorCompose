@@ -1,11 +1,15 @@
 package com.zeus.compose.data.repository
 
 import com.zeus.compose.data.api.EndPoints
-import com.zeus.compose.data.models.Greetings
+import com.zeus.compose.data.dto.Result
+import com.zeus.compose.data.dto.StreamingContentDto
+import com.zeus.compose.data.mappers.toStreamingContent
+import com.zeus.compose.domain.models.StreamingContent
+import com.zeus.compose.domain.repository.HomeRepository
+import com.zeus.compose.utils.processOnLoad
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.serialization.json.Json.Default.decodeFromString
 import org.w3c.xhr.JSON
 import org.w3c.xhr.XMLHttpRequest
 import org.w3c.xhr.XMLHttpRequestResponseType
@@ -16,27 +20,23 @@ actual fun getHomeRepository(): HomeRepository {
 
 class HomeRepositoryImpl : HomeRepository {
 
-    override suspend fun getGreetings(): Flow<Greetings> = callbackFlow {
+    override fun getHomeContent(): Flow<List<StreamingContent>> = callbackFlow {
         val req = XMLHttpRequest()
-        req.open("GET", EndPoints.GREETINGS.route, true)
+        req.open("GET", EndPoints.HOME.route, true)
         req.responseType = XMLHttpRequestResponseType.JSON
-        req.send()
-        req.onload = { _ ->
-            if (req.readyState == 4.toShort() && req.status == 200.toShort()) {
-                val res = JSON.stringify(req.response)
-                if (res != null) {
-                    val greetings: Greetings = decodeFromString(res)
-                    trySend(greetings)
-                }
+        //req.setRequestHeader("Access-Control-Allow-Origin", "*")
+        req.withCredentials = true
+
+        req.processOnLoad<Result<List<StreamingContentDto>>>(
+            onSuccess = { response ->
+                trySend(response.result.map { it.toStreamingContent() })
             }
-        }
+        )
+
+        req.send()
 
         awaitClose {
             req.abort()
         }
     }
-}
-
-external object JSON {
-    fun stringify(o: JsAny?): String?
 }

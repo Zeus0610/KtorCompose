@@ -1,9 +1,13 @@
 package com.zeus.compose.data.repository
 
 import com.zeus.compose.data.api.EndPoints
-import com.zeus.compose.data.models.User
-import com.zeus.compose.data.models.UserCredentials
-import kotlinx.browser.document
+import com.zeus.compose.data.dto.UserDto
+import com.zeus.compose.data.dto.UserCredentialsDto
+import com.zeus.compose.data.mappers.toUser
+import com.zeus.compose.domain.models.User
+import com.zeus.compose.domain.repository.LoginRepository
+import com.zeus.compose.jsModules.JSON
+import com.zeus.compose.utils.processOnLoad
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -21,7 +25,7 @@ actual fun getLoginRepository(): LoginRepository {
 
 class LoginRepositoryImpl: LoginRepository {
 
-    override fun login(userCredentials: UserCredentials): Flow<User> = callbackFlow {
+    override fun login(userCredentials: UserCredentialsDto): Flow<User> = callbackFlow {
         val req = XMLHttpRequest()
         req.open("POST", EndPoints.LOGIN.route, true)
         req.responseType = XMLHttpRequestResponseType.JSON
@@ -29,15 +33,12 @@ class LoginRepositoryImpl: LoginRepository {
         req.setRequestHeader("Content-Type", "application/json")
         req.setRequestHeader("Access-Control-Allow-Origin", "*")
 
-        req.onload = { _ ->
-            if (req.readyState == 4.toShort() && req.status == 200.toShort()) {
-                val res = JSON.stringify(req.response)
-                if (res != null) {
-                    val user: User = decodeFromString(res)
-                    trySend(user)
-                }
+        req.processOnLoad<UserDto>(
+            onSuccess = { response ->
+                trySend(response.toUser())
             }
-        }
+        )
+
         val credentialsJson = Json.encodeToString(userCredentials)
         req.send(credentialsJson)
 
@@ -52,14 +53,14 @@ class LoginRepositoryImpl: LoginRepository {
         req.responseType = XMLHttpRequestResponseType.TEXT
         req.withCredentials = true
 
-        req.onload = { _ ->
-            if (req.readyState == 4.toShort() && req.status == 200.toShort()) {
-                val res = req.responseText
-                trySend(res.toBoolean())
-            } else {
+        req.processOnLoad<Boolean>(
+            onSuccess = { response ->
+                trySend(response)
+            },
+            onError = {
                 trySend(false)
             }
-        }
+        )
 
         req.send()
 

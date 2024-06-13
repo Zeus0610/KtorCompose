@@ -1,9 +1,9 @@
-package com.zeus.compose.data.models
+package com.zeus.compose.data.dto
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserCredentials(
+data class UserCredentialsDto(
     val username: String,
     val password: String
 )

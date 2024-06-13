@@ -22,6 +22,7 @@ fun MainNavGraph(
     ) {
         composable(NavScreens.Home.route) {
             HomeScreen(
+                viewModel = homeViewModel,
                 onContentClick = {
                     navController.navigate(NavScreens.Player.route)
                 }

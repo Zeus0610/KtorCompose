@@ -69,6 +69,8 @@ kotlin {
             implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-beta02")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+            implementation("io.coil-kt.coil3:coil:3.0.0-alpha06")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

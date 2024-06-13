@@ -2,7 +2,7 @@ package com.zeus.compose
 
 import com.zeus.compose.data.repository.getHomeRepository
 import com.zeus.compose.data.repository.getLoginRepository
-import com.zeus.compose.domain.usecases.GetGreetingsUseCase
+import com.zeus.compose.domain.usecases.GetHomeContentUseCase
 import com.zeus.compose.domain.usecases.LoginUseCase
 import com.zeus.compose.ui.viewModels.HomeViewModel
 import com.zeus.compose.ui.viewModels.LoginViewModel
@@ -17,8 +17,8 @@ object Module {
         getLoginRepository()
     }
 
-    private val greetingsUseCase by lazy {
-        GetGreetingsUseCase(homeRepository)
+    private val getHomeContentUseCase by lazy {
+        GetHomeContentUseCase(homeRepository)
     }
 
     private val loginUseCase by lazy {
@@ -26,7 +26,7 @@ object Module {
     }
 
     fun getHomeViewModel(): HomeViewModel {
-        return HomeViewModel(greetingsUseCase)
+        return HomeViewModel(getHomeContentUseCase)
     }
 
     fun getLoginViewModel(): LoginViewModel {
