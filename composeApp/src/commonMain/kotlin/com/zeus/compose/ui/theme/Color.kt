@@ -1,3 +1,5 @@
+package com.zeus.compose.ui.theme
+
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF006877)

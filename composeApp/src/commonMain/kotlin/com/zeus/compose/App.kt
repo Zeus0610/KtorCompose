@@ -7,8 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.zeus.compose.ui.screens.LoginScreen
+import com.zeus.compose.ui.theme.darkScheme
 import com.zeus.compose.utils.hasSession
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -26,7 +25,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme(
-        colorScheme = darkColorScheme()
+        colorScheme = darkScheme
     ) {
         val loginViewModel = viewModel {
             Module.getLoginViewModel()
