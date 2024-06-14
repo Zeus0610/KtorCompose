@@ -45,3 +45,7 @@ GET http://localhost/api/video/Halo Fall of Reach/Halo Fall of Reach.mpd
 GET http://localhost/
 
 ###
+
+GET http://localhost/mani.jpg
+
+###

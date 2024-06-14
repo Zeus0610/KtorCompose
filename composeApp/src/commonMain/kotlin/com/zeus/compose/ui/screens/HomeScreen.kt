@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.zeus.compose.ui.viewEvents.HomeEvents
 import com.zeus.compose.ui.viewModels.HomeViewModel
+import ktorcompose.composeapp.generated.resources.Res
+import ktorcompose.composeapp.generated.resources.ic_launcher_foreground
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,10 +59,14 @@ fun HomeScreen(
                         }
                 ) {
                     AsyncImage(
-                        modifier = Modifier.defaultMinSize(500.dp, 500.dp),
-                        model = "https://coil-kt.github.io/coil/images/coil_logo_black.svg",
+                        modifier = Modifier.defaultMinSize(200.dp, 200.dp),
+                        model = "http://192.168.1.64/mani.jpg",
+                        error = painterResource(Res.drawable.ic_launcher_foreground),
                         contentDescription = content.name,
-                        colorFilter = ColorFilter.tint(Color.Cyan)
+                        //colorFilter = ColorFilter.tint(Color.Cyan),
+                        onError = {
+                            it.result.throwable.printStackTrace()
+                        }
                     )
                     Text(
                         modifier = Modifier
@@ -71,17 +78,5 @@ fun HomeScreen(
                 }
             }
         }
-        /*Column(
-            modifier = Modifier.padding(padding)
-        ) {
-            Text("Image home Screen with top bar")
-            Button(
-                onClick = {
-                    onContentClick.invoke("Halo Fall of Reach")
-                }
-            ) {
-                Text("Open player")
-            }
-        }*/
     }
 }
