@@ -1,6 +1,7 @@
 package com.zeus.compose.data.repository
 
 import com.zeus.compose.data.api.EndPoints
+import com.zeus.compose.data.api.EndPoints.withUrlBase
 import com.zeus.compose.data.dto.Result
 import com.zeus.compose.data.dto.StreamingContentDto
 import com.zeus.compose.data.mappers.toStreamingContent
@@ -22,7 +23,7 @@ class HomeRepositoryImpl : HomeRepository {
 
     override fun getHomeContent(): Flow<List<StreamingContent>> = callbackFlow {
         val req = XMLHttpRequest()
-        req.open("GET", EndPoints.HOME.route, true)
+        req.open("GET", EndPoints.HOME.withUrlBase(), true)
         req.responseType = XMLHttpRequestResponseType.JSON
         //req.setRequestHeader("Access-Control-Allow-Origin", "*")
         req.withCredentials = true

@@ -1,9 +1,12 @@
 package com.zeus.compose.data.api
 
-private const val URL_BASE = "http://localhost/api"
+object EndPoints {
+    const val URL_BASE = "http://localhost/api/"
+    const val LOGIN = "login"
+    const val VALIDATE_SESSION = "validateSession"
+    const val HOME = "home"
 
-enum class EndPoints(val route: String) {
-    LOGIN("$URL_BASE/login"),
-    VALIDATE_SESSION("$URL_BASE/validateSession"),
-    HOME("$URL_BASE/home")
+    fun String.withUrlBase(): String {
+        return "$URL_BASE$this"
+    }
 }

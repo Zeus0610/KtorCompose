@@ -1,6 +1,7 @@
 package com.zeus.compose.data.repository
 
 import com.zeus.compose.data.api.EndPoints
+import com.zeus.compose.data.api.EndPoints.withUrlBase
 import com.zeus.compose.data.dto.UserDto
 import com.zeus.compose.data.dto.UserCredentialsDto
 import com.zeus.compose.data.mappers.toUser
@@ -27,7 +28,7 @@ class LoginRepositoryImpl: LoginRepository {
 
     override fun login(userCredentials: UserCredentialsDto): Flow<User> = callbackFlow {
         val req = XMLHttpRequest()
-        req.open("POST", EndPoints.LOGIN.route, true)
+        req.open("POST", EndPoints.LOGIN.withUrlBase(), true)
         req.responseType = XMLHttpRequestResponseType.JSON
         req.withCredentials = true
         req.setRequestHeader("Content-Type", "application/json")
@@ -49,7 +50,7 @@ class LoginRepositoryImpl: LoginRepository {
 
     override fun validateSession(): Flow<Boolean> = callbackFlow {
         val req = XMLHttpRequest()
-        req.open("GET", EndPoints.VALIDATE_SESSION.route, true)
+        req.open("GET", EndPoints.VALIDATE_SESSION.withUrlBase(), true)
         req.responseType = XMLHttpRequestResponseType.TEXT
         req.withCredentials = true
 
