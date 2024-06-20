@@ -16,6 +16,7 @@ import io.ktor.util.*
 fun Application.securityModule() {
     install(CORS) {
         allowHeader(HttpHeaders.AccessControlAllowOrigin)
+        allowHeader(HttpHeaders.Authorization)
         allowHeader(HttpHeaders.ContentType)
         allowHost("0.0.0.0:8080")
         allowHost("localhost:8080")
@@ -38,13 +39,18 @@ fun Application.securityModule() {
             )
 
             authHeader { call ->
-                val session = call.sessions.get<UserSession>()
+                val authorization = call.request.headers["Authorization"]
+                if (authorization.isNullOrEmpty()) {
+                    val session = call.sessions.get<UserSession>()
 
-                try {
-                    parseAuthorizationHeader("Bearer ${session?.userToken}")
-                } catch (e: IllegalArgumentException) {
-                    e.message
-                    null
+                    try {
+                        parseAuthorizationHeader("Bearer ${session?.userToken}")
+                    } catch (e: IllegalArgumentException) {
+                        e.message
+                        null
+                    }
+                } else {
+                    parseAuthorizationHeader(authorization)
                 }
             }
 

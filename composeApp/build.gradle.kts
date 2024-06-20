@@ -57,10 +57,9 @@ kotlin {
         androidMain.dependencies {
             implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
             implementation("androidx.activity:activity-compose:1.9.0")
-            implementation("com.squareup.retrofit2:retrofit:2.11.0")
-            implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
             implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-            implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-alpha06")
+            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
+            implementation("io.ktor:ktor-client-okhttp:3.0.0-wasm2")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -75,12 +74,12 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
             implementation("io.coil-kt.coil3:coil:3.0.0-alpha06")
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
-            /*implementation("io.ktor:ktor-client-core:2.3.11")
-            implementation("io.ktor:ktor-client-cio:2.3.11")
-            implementation("io.ktor:ktor-client-logging:2.3.11")
-            implementation("io.ktor:ktor-client-resources:2.3.11")*/
-            //implementation("io.ktor:ktor-client-okhttp:2.3.11")
+
             implementation("io.ktor:ktor-client-core:3.0.0-wasm2")
+            implementation("io.ktor:ktor-client-content-negotiation:3.0.0-wasm2")
+            implementation("io.ktor:ktor-serialization:3.0.0-wasm2")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0-wasm2")
+            implementation("io.ktor:ktor-client-logging:3.0.0-wasm2")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -88,7 +87,7 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(npm("dashjs", "4.7.4"))
             implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
-            //implementation("io.ktor:ktor-client-core-js:3.0.0-beta-1")
+            implementation("io.ktor:ktor-client-js:3.0.0-wasm2")
         }
     }
 }

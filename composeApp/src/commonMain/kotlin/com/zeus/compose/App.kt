@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.zeus.compose.ui.screens.LoginScreen
 import com.zeus.compose.ui.theme.darkScheme
-import com.zeus.compose.utils.hasSession
+import kotlinx.coroutines.flow.first
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -30,10 +30,11 @@ fun App() {
         val loginViewModel = viewModel {
             Module.getLoginViewModel()
         }
+        val validateSessionUseCase = Module.validateSessionUseCase
         val hasSession = remember { mutableStateOf(false) }
 
         LaunchedEffect(Unit) {
-            hasSession.value = hasSession()
+            hasSession.value = validateSessionUseCase.invoke().first()
         }
 
         if (hasSession.value.not()) {

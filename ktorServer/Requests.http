@@ -18,7 +18,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost/api/home
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vMC4wLjAuMC9oZWxsbyIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wLyIsInVzZXJuYW1lIjoiWmV1cyIsImV4cCI6MTcxODg0MDQ4M30.UI2jOKQregy_-LhPdz40U7axZYsYFPl_1HG2Gz08Az4
 
 ###
 
