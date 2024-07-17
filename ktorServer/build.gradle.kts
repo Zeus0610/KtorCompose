@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.50.1")
 
     implementation("io.ktor:ktor-server-partial-content")
-
+    implementation("io.ktor:ktor-server-auto-head-response")
 
     implementation("io.ktor:ktor-serialization-gson-jvm")
     implementation("io.ktor:ktor-server-sessions-jvm")

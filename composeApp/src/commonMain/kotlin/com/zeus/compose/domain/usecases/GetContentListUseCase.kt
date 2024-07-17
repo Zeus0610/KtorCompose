@@ -4,10 +4,10 @@ import com.zeus.compose.domain.models.StreamingContent
 import com.zeus.compose.domain.repository.ContentRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetHomeContentUseCase(
+class GetContentListUseCase(
     private val contentRepository: ContentRepository
 ) {
-    operator fun invoke(): Flow<List<StreamingContent>> {
-        return contentRepository.getHomeContent()
+    operator fun invoke(contentName: String): Flow<List<StreamingContent>> {
+        return contentRepository.getContentList(contentName)
     }
 }

@@ -15,6 +15,7 @@ fun UserDto.toUser(): User {
 fun StreamingContentDto.toStreamingContent(): StreamingContent {
     return StreamingContent(
         name = this.name ?: "",
-        video = this.video ?: ""
+        video = this.video ?: "",
+        isSingleContent = this.isSingleContent ?: false,
     )
 }

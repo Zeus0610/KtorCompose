@@ -9,6 +9,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.autohead.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.partialcontent.*
 import io.ktor.server.request.*
@@ -22,6 +23,7 @@ fun Application.routingModule() {
         json()
     }
     install(PartialContent)
+    install(AutoHeadResponse)
 
     val filesRepository = FilesRepository()
 
@@ -61,6 +63,11 @@ fun Application.routingModule() {
                     val content = call.parameters["content"]?: ""
                     val fileName = call.parameters["file"]?: ""
                     val file = filesRepository.getFile("$content/$fileName")
+                    call.response.header(
+                        HttpHeaders.ContentDisposition,
+                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, fileName)
+                            .toString()
+                    )
                     call.respondFile(file)
                 }
             }

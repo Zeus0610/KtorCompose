@@ -16,13 +16,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class LoginRepositoryImpl(
-    private val endPoints: EndPoints,
     private val client: HttpClient,
     private val sessionStorage: SessionStorageRepository
 ) : LoginRepository {
 
-    override fun login(userCredentials: UserCredentialsDto): Flow<User> = flow<User> {
-        val response = client.post(endPoints.LOGIN) {
+    override fun login(userCredentials: UserCredentialsDto): Flow<User> = flow {
+        val response = client.post(EndPoints.LOGIN) {
             contentType(ContentType.Application.Json)
             setBody(userCredentials)
         }
@@ -38,7 +37,7 @@ class LoginRepositoryImpl(
     }
 
     override fun validateSession(): Flow<Boolean> = flow<Boolean> {
-        val response = client.get(endPoints.VALIDATE_SESSION) {
+        val response = client.get(EndPoints.VALIDATE_SESSION) {
             header("Authorization",sessionStorage.getToken())
         }
         emit(response.body())

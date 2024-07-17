@@ -14,5 +14,6 @@ external object dashjs {
         fun pause()
         fun setXHRWithCredentialsForType(type: JsString, value: JsBoolean)
         fun destroy()
+        fun isReady(): JsBoolean
     }
 }

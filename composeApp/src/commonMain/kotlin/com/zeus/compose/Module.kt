@@ -2,12 +2,14 @@ package com.zeus.compose
 
 import com.zeus.compose.data.api.getClient
 import com.zeus.compose.data.api.getEndPoints
-import com.zeus.compose.data.repository.HomeRepositoryImpl
+import com.zeus.compose.data.repository.ContentRepositoryImpl
 import com.zeus.compose.data.repository.LoginRepositoryImpl
+import com.zeus.compose.domain.usecases.GetContentListUseCase
 import com.zeus.compose.domain.usecases.GetHomeContentUseCase
 import com.zeus.compose.domain.usecases.LoginUseCase
 import com.zeus.compose.domain.usecases.ValidateSessionUseCase
 import com.zeus.compose.persistence.repository.getSessionStorage
+import com.zeus.compose.ui.viewModels.ContentListViewModel
 import com.zeus.compose.ui.viewModels.HomeViewModel
 import com.zeus.compose.ui.viewModels.LoginViewModel
 import io.ktor.client.plugins.contentnegotiation.*
@@ -18,6 +20,7 @@ import io.ktor.serialization.kotlinx.json.*
 object Module {
 
     private val sessionStorageRepository by lazy {
+        getEndPoints()
         getSessionStorage()
     }
 
@@ -35,9 +38,8 @@ object Module {
         }
     }
 
-    private val homeRepository by lazy {
-        HomeRepositoryImpl(
-            getEndPoints(),
+    private val contentRepository by lazy {
+        ContentRepositoryImpl(
             client,
             sessionStorageRepository
         )
@@ -45,18 +47,21 @@ object Module {
 
     private val loginRepository by lazy {
         LoginRepositoryImpl(
-            getEndPoints(),
             client,
             sessionStorageRepository
         )
     }
 
     private val getHomeContentUseCase by lazy {
-        GetHomeContentUseCase(homeRepository)
+        GetHomeContentUseCase(contentRepository)
     }
 
     private val loginUseCase by lazy {
         LoginUseCase(loginRepository)
+    }
+
+    private val getContentListUseCase by lazy {
+        GetContentListUseCase(contentRepository)
     }
 
     val validateSessionUseCase by lazy {
@@ -69,5 +74,9 @@ object Module {
 
     fun getLoginViewModel(): LoginViewModel {
         return LoginViewModel(loginUseCase)
+    }
+
+    fun getContentListViewModel(): ContentListViewModel {
+        return ContentListViewModel(getContentListUseCase)
     }
 }
