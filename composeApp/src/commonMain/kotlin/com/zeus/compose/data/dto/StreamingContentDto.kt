@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class StreamingContentDto(
     val name: String?,
     val video: String?,
-    val isSingleContent: Boolean?
+    val isSingleContent: Boolean?,
+    val image: String?
 )

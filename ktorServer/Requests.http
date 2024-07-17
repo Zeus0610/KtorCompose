@@ -22,12 +22,12 @@ GET http://localhost/api/home
 
 ###
 
-GET http://localhost/api/content/Clannad
+GET http://localhost/api/content/Runaterra
 
 
 ###
 
-GET http://localhost/api/content/Halo Fall of Reach
+GET http://localhost/api/content/Imagine Dragons - JID - Enemy
 
 
 ###
@@ -47,5 +47,9 @@ GET http://localhost/
 ###
 
 GET http://localhost/mani.jpg
+
+###
+
+GET http://localhost/api/video/Imagine Dragons - JID - Enemy/image.png
 
 ###

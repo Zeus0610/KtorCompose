@@ -44,13 +44,12 @@ fun ContentList(
                 Box(
                     modifier = Modifier
                         .clickable {
-                            println("video content $content")
                             onContentClick.invoke(content.isSingleContent, content.name, content.video)
                         }
                 ) {
                     AsyncImage(
                         modifier = Modifier.defaultMinSize(200.dp, 200.dp),
-                        model = "http://192.168.1.64/mani.jpg",
+                        model = content.image,
                         error = painterResource(Res.drawable.ic_launcher_foreground),
                         contentDescription = content.name,
                         onError = {

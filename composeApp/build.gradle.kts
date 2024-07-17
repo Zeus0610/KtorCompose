@@ -1,4 +1,4 @@
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -55,11 +55,19 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+            implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
             implementation("androidx.activity:activity-compose:1.9.0")
             implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
             implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
             implementation("io.ktor:ktor-client-okhttp:3.0.0-wasm2")
+
+            implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+            //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+            implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
+
+            implementation("androidx.media3:media3-exoplayer:1.3.1")
+            implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
+            implementation("androidx.media3:media3-ui:1.3.1")
         }
         commonMain.dependencies {
             implementation(compose.runtime)

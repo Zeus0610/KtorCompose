@@ -29,4 +29,8 @@ object EndPoints {
     fun contentListURL(contentName: String): String {
         return "$urlBase$CONTENT/$contentName"
     }
+
+    fun imageUrl(): String {
+        return "$urlBase$VIDEO/"
+    }
 }

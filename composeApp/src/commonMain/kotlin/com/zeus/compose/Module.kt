@@ -12,6 +12,8 @@ import com.zeus.compose.persistence.repository.getSessionStorage
 import com.zeus.compose.ui.viewModels.ContentListViewModel
 import com.zeus.compose.ui.viewModels.HomeViewModel
 import com.zeus.compose.ui.viewModels.LoginViewModel
+import com.zeus.compose.ui.viewModels.PlayerViewModel
+import com.zeus.compose.ui.viewModels.getPlayerViewModel
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
@@ -78,5 +80,9 @@ object Module {
 
     fun getContentListViewModel(): ContentListViewModel {
         return ContentListViewModel(getContentListUseCase)
+    }
+
+    fun providePlayerViewModel(): PlayerViewModel {
+        return getPlayerViewModel()
     }
 }

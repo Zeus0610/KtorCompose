@@ -21,6 +21,9 @@ fun MainNavGraph(
     val contentListViewModel = viewModel {
         Module.getContentListViewModel()
     }
+    val playerViewModel = viewModel {
+        Module.providePlayerViewModel()
+    }
 
     NavHost(
         navController = navController,
@@ -60,6 +63,7 @@ fun MainNavGraph(
             val videoName = backStackEntry.arguments?.getString("videoName")
             println("Video entry $contentName $chapter $videoName")
             PlayerScreen(
+                viewModel = playerViewModel,
                 contentName = contentName ?: "",
                 chapter = chapter ?: "",
                 videoName = videoName ?: ""

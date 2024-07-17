@@ -1,5 +1,6 @@
 package com.zeus.compose.data.mappers
 
+import com.zeus.compose.data.api.EndPoints
 import com.zeus.compose.data.dto.StreamingContentDto
 import com.zeus.compose.data.dto.UserDto
 import com.zeus.compose.domain.models.StreamingContent
@@ -17,5 +18,6 @@ fun StreamingContentDto.toStreamingContent(): StreamingContent {
         name = this.name ?: "",
         video = this.video ?: "",
         isSingleContent = this.isSingleContent ?: false,
+        image = "${EndPoints.imageUrl()}${this.image}",
     )
 }

@@ -2,7 +2,6 @@ package com.zeus.data.repository
 
 import com.zeus.model.StreamingContent
 import java.io.File
-import java.util.stream.Stream
 
 class FilesRepository {
 
@@ -21,17 +20,12 @@ class FilesRepository {
                 StreamingContent(
                     name = it.name,
                     video = it.name,
-                    isSingleContent = true
+                    isSingleContent = true,
+                    image = "$contentName/image.png"
                 )
             }
         } else {
             return directories
-                /*.map {
-                    StreamingContent(
-                        name = it.name,
-                        video = "${it.name}.mpd"
-                    )
-                }*/
         }
     }
 
@@ -49,19 +43,23 @@ private fun File.filterDirectories(): List<StreamingContent> {
         if((contentFiles?.size ?: 0) > 1) {
             StreamingContent(
                 name = directory.name,
-                isSingleContent = false
+                isSingleContent = false,
+                image = "${directory.name}/image.png"
             )
         } else {
+            val rootContentName = if (this.name != "streaming") {
+                this.name + "/"
+            } else {
+                ""
+            }
             StreamingContent(
                 name = directory.name,
                 video = directory.filterFiles().firstOrNull()?.name?: "",
-                isSingleContent = true
+                isSingleContent = true,
+                image = "$rootContentName${directory.name}/image.png"
             )
         }
     }.orEmpty().sortedBy { it.name }
-    /*return listFiles { file ->
-        file.isDirectory
-    }?.toList()?.sortedBy { it.name }.orEmpty()*/
 }
 
 private fun File.filterFiles(): List<File> {

@@ -10,12 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.zeus.compose.data.api.EndPoints
 import com.zeus.compose.jsModules.dashjs
+import com.zeus.compose.ui.viewModels.PlayerViewModel
 import kotlinx.browser.document
 import kotlinx.dom.clear
 import org.w3c.dom.HTMLVideoElement
 
 @Composable
 actual fun PlayerScreen(
+    viewModel: PlayerViewModel,
     contentName: String,
     chapter: String,
     videoName: String
