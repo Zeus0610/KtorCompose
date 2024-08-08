@@ -10,6 +10,7 @@ import com.zeus.compose.domain.repository.SessionStorageRepository
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -32,7 +33,10 @@ class ContentRepositoryImpl(
     }
 
     override fun getContentList(contentName: String): Flow<List<StreamingContent>> = flow {
-        val response = client.get(EndPoints.contentListURL(contentName)) {
+        val response = client.get(EndPoints.urlBase) {
+            url {
+                appendPathSegments("content", contentName)
+            }
             header("Authorization", sessionStorage.getToken())
         }
 

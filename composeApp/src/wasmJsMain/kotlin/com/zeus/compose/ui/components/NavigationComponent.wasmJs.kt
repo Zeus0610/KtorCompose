@@ -36,6 +36,16 @@ actual fun NavigationComponent(
                             icon = { Icon(item.second, item.first) }
                         )
                     }
+                    else -> {
+                        NavigationRailItem(
+                            selected = index == selectedItem,
+                            onClick = {
+                                selectedItem = index
+                                navigateToHome.invoke()
+                            },
+                            icon = { Icon(item.second, item.first) }
+                        )
+                    }
                 }
             }
         }

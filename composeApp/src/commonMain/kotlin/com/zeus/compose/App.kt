@@ -2,7 +2,9 @@ package com.zeus.compose
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,7 +53,9 @@ fun MainContent() {
     val navController = rememberNavController()
 
     val navItems = listOf(
-        "Home" to Icons.Filled.Home
+        "Home" to Icons.Filled.Home,
+        "Profile" to Icons.Filled.AccountCircle,
+        "Settings" to Icons.Filled.Settings
     )
 
     Row {

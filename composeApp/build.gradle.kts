@@ -28,9 +28,6 @@ kotlin {
     }
 
     androidTarget {
-        /*compilerOptions {
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-        }*/
         compilations.all {
             kotlinOptions {
                 jvmTarget = "17"
@@ -55,7 +52,7 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
+            //debugImplementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
             implementation("androidx.activity:activity-compose:1.9.0")
             implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
             implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
@@ -125,7 +122,7 @@ android {
             isMinifyEnabled = false
         }
         debug {
-            buildConfigField("String", "URL_BASE", "\"http://192.168.1.64/api/\"")
+            buildConfigField("String", "URL_BASE", "\"http://192.168.1.75/api/\"")
         }
     }
     compileOptions {
@@ -136,6 +133,6 @@ android {
         buildConfig = true
     }
     dependencies {
-        debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
+        debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
     }
 }
