@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: Action release
+          tag_name: action-release
           release_name: Action release
           body: |
             Changes in this Release
