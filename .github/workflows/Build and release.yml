@@ -1,0 +1,55 @@
+name: Generate Ktor server artifact with wasm compose front
+
+env:
+  wasm_production_output_path: ./composeApp/build/dist/wasmJs/productionExecutable/
+  ktor_static_path: ./ktorServer/src/main/resources/static/wasm/
+  ktor_production_output_path: ./ktorServer/build/distributions/
+  ktor_assemble: :ktorServer:assemble
+  wasm_assemble: :composeApp:wasmjsBrowserDistribution
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Assemble compose wasm production files
+        run: ./gradlew :composeApp:wasmjsBrowserDistribution
+
+      - name: Copy wasm files to ktor static directory
+        run: cp -a ${{ env.wasm_production_output_path }}. ${{ env.ktor_static_path }}
+
+      - name: Assemble ktorServer
+        run: ./gradlew :ktorServer:assemble
+
+      - name: Upload tag and artifact
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First test release
+          draft: false
+          prerelease: false
