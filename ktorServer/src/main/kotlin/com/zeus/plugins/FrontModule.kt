@@ -7,7 +7,7 @@ import io.ktor.server.routing.*
 
 fun Application.frontModule() {
     routing {
-        staticResources("/", "static") {
+        staticResources("/", "static/wasm/") {
             //default("index.html")
             preCompressed(CompressedFileType.GZIP)
         }
