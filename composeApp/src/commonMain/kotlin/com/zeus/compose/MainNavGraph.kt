@@ -61,7 +61,7 @@ fun MainNavGraph(
             val contentName = backStackEntry.arguments?.getString("contentName")
             val chapter = backStackEntry.arguments?.getString("chapter")
             val videoName = backStackEntry.arguments?.getString("videoName")
-            println("Video entry $contentName $chapter $videoName")
+
             PlayerScreen(
                 viewModel = playerViewModel,
                 contentName = contentName ?: "",

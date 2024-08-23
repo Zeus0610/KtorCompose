@@ -1,13 +1,16 @@
 
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("org.jetbrains.compose")
-    id("com.android.application")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composePlugin)
 }
 
 kotlin {
@@ -28,10 +31,9 @@ kotlin {
     }
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -52,19 +54,17 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            //debugImplementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
-            implementation("androidx.activity:activity-compose:1.9.0")
-            implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
-            implementation("io.ktor:ktor-client-okhttp:3.0.0-wasm2")
+            implementation(compose.preview)
+            implementation(libs.androidx.activityCompose)
+            implementation(libs.loggingInterceptor)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.ktor.client.okhttp)
 
-            implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-            //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
-            implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
+            implementation(libs.androidx.lifecycle)
 
-            implementation("androidx.media3:media3-exoplayer:1.3.1")
-            implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
-            implementation("androidx.media3:media3-ui:1.3.1")
+            implementation(libs.media3.exoplayer)
+            implementation(libs.media3.dash)
+            implementation(libs.media3.ui)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -73,26 +73,34 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha03")
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-beta02")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-            implementation("io.coil-kt.coil3:coil:3.0.0-alpha06")
-            implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
 
-            implementation("io.ktor:ktor-client-core:3.0.0-wasm2")
-            implementation("io.ktor:ktor-client-content-negotiation:3.0.0-wasm2")
-            implementation("io.ktor:ktor-serialization:3.0.0-wasm2")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0-wasm2")
-            implementation("io.ktor:ktor-client-logging:3.0.0-wasm2")
+            implementation(libs.androidx.navigation)
+            implementation(libs.jetbrains.lifecycle)
+            implementation(libs.kotlin.serialization.json)
+            implementation(libs.kotlin.coroutines.core)
+            implementation(libs.coil)
+            implementation(libs.coil.compose)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.serialization.json)
+            implementation(libs.ktor.client.logging)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+
+            implementation(libs.kotlin.coroutines.swing)
+
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.coil.network.ktor)
+
+            implementation(libs.vlcj)
         }
         wasmJsMain.dependencies {
             implementation(npm("dashjs", "4.7.4"))
-            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
-            implementation("io.ktor:ktor-client-js:3.0.0-wasm2")
+            implementation(libs.coil.network.ktor)
+            implementation(libs.ktor.client.js)
         }
     }
 }
@@ -106,7 +114,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "org.zeus.kotlin_multiplatform"
+        applicationId = "org.zeus.compose"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -134,5 +142,17 @@ android {
     }
     dependencies {
         debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.zeus.compose.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.zeus.compose"
+            packageVersion = "1.0.0"
+        }
     }
 }

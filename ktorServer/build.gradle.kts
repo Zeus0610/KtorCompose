@@ -1,10 +1,10 @@
 plugins {
-    kotlin("jvm")
-    id("io.ktor.plugin")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlinSerialization)
 }
 
-group = "com.example"
+group = "com.zeus"
 version = "0.0.1"
 
 application {
@@ -15,26 +15,25 @@ application {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("io.ktor:ktor-server-cors")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.serialization)
+    implementation(libs.ktor.server.contentNegotiation)
+    implementation(libs.ktor.server.cors)
 
-    implementation("org.postgresql:postgresql:42.7.3")
-    //implementation("com.h2database:h2:2.2.224")
+    implementation(libs.postgress)
 
-    implementation("org.jetbrains.exposed:exposed-core:0.50.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.50.1")
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.jdbc)
 
-    implementation("io.ktor:ktor-server-partial-content")
-    implementation("io.ktor:ktor-server-auto-head-response")
+    implementation(libs.ktor.server.partialContent)
+    implementation(libs.ktor.server.autoHeadResponse)
 
-    implementation("io.ktor:ktor-serialization-gson-jvm")
-    implementation("io.ktor:ktor-server-sessions-jvm")
-    implementation("io.ktor:ktor-server-auth-jvm")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm")
-    implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
-    testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.0.0-RC3")
+    implementation(libs.ktor.server.serializationGson)
+    implementation(libs.ktor.server.sessions)
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.jwt)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.logback)
+    testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.kotlin.tests)
 }
