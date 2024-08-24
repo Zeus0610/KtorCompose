@@ -77,3 +77,6 @@ kotlin-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 #WasmJs Dependencies
 ktor-client-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor-client" }
 vlcj = { group = "uk.co.caprica", name = "vlcj", version.ref = "vlcj" }
+
+#iOS Dependencies
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor-client" }

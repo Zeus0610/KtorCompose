@@ -42,7 +42,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iostarget ->
         iostarget.binaries.framework {
             baseName = "ComposeApp"
@@ -101,6 +101,10 @@ kotlin {
             implementation(npm("dashjs", "4.7.4"))
             implementation(libs.coil.network.ktor)
             implementation(libs.ktor.client.js)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.coil.network.ktor)
         }
     }
 }
