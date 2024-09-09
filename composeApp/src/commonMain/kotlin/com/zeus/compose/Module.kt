@@ -1,6 +1,5 @@
 package com.zeus.compose
 
-import com.zeus.compose.data.api.getClient
 import com.zeus.compose.data.api.getEndPoints
 import com.zeus.compose.data.repository.ContentRepositoryImpl
 import com.zeus.compose.data.repository.LoginRepositoryImpl
@@ -9,11 +8,8 @@ import com.zeus.compose.domain.usecases.GetHomeContentUseCase
 import com.zeus.compose.domain.usecases.LoginUseCase
 import com.zeus.compose.domain.usecases.ValidateSessionUseCase
 import com.zeus.compose.persistence.repository.getSessionStorage
-import com.zeus.compose.ui.viewModels.ContentListViewModel
-import com.zeus.compose.ui.viewModels.HomeViewModel
-import com.zeus.compose.ui.viewModels.LoginViewModel
-import com.zeus.compose.ui.viewModels.PlayerViewModel
-import com.zeus.compose.ui.viewModels.getPlayerViewModel
+import com.zeus.compose.ui.viewModels.*
+import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
@@ -27,7 +23,7 @@ object Module {
     }
 
     private val client by lazy {
-        getClient().config {
+        HttpClient().config {
             install(HttpCookies) {
                 storage = AcceptAllCookiesStorage()
             }
