@@ -1,0 +1,36 @@
+name: Build and create artifacts
+
+env:
+  wasm_production_output_path: ./composeApp/build/dist/wasmJs/productionExecutable/
+  ktor_static_path: ./ktorServer/src/main/resources/static/wasm/
+  ktor_production_output_path: ./ktorServer/build/distributions/ktorServer-0.0.1.zip
+  ktor_assemble: :ktorServer:assemble
+  wasm_assemble: :composeApp:wasmjsBrowserDistribution
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build-front:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            
+            - name: Set Up jdk
+              uses: actions/setup-java@v4
+              with: 
+                distribution: 'corretto'
+                java-version: '17'
+                cache: 'gradle'
+            - name: Change wrapper permisions
+              run: chmod +x ./gradlew
+            - name: Assemble wasm production 
+              run: ./gradlew ${{ env.wasm_assemble }}
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4.4.0
+              with:
+                name: front-artifact-wasm
+                path: ${{env.wasm_production_output_path}}
+
+#    build-server: 
+        
