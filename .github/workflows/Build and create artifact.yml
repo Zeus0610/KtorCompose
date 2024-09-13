@@ -16,7 +16,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             
-            - name: Set Up jdk
+            - name: Set Up java
               uses: actions/setup-java@v4
               with: 
                 distribution: 'corretto'
@@ -32,5 +32,31 @@ jobs:
                 name: front-artifact-wasm
                 path: ${{env.wasm_production_output_path}}
 
-#    build-server: 
-        
+    build-server: 
+        needs: build-front
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: setup java
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'corretto'
+                java-version: '17'
+                cache: 'gradle'
+            - name: Change wrapper permisions
+              run:  chmod +x ./gradlew
+            - name: Download front artifact
+              uses: actions/download-artifact@v4.1.8
+              with: 
+                name: front-artifact-wasm
+                path: ${{env.ktor_static_path}}
+            - name: Dosplay structure of downloaded files
+              run: ls -R ${{env.ktor_static_path}}
+            - name: Assemble ktor server with front wasm
+              run: ./gradlew ${{env.ktor_assemble}}
+            - name: Upload server artifact
+              uses: actions/upload-artifact@v4.4.0
+              with: 
+                name: ktor-server
+                path: ${{env.ktor_production_output_path}}
