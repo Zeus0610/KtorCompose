@@ -1,7 +1,6 @@
-name: Build android apk
+name: Build and upload artifact
 
-on: 
-    workflow_dispatch:
+on:
     workflow_call:
         inputs:
             gradle-build-task:
@@ -10,13 +9,17 @@ on:
             output-path:
               required: true
               type: string
+            artifact-name:
+              required: true
+              type: string
 
-jobs: 
-    build-android-apk: 
+jobs:
+    build:
+        name: ${{inputs.artifact-name}}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            
+
             - name: setup java
               uses: actions/setup-java@v4
               with:
@@ -30,5 +33,5 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v4.4.0
               with:
-                name: android apk
-                path: '${{inputs.output-path}}composeApp-debug.apk'
+                name: ${{inputs.artifact-name}}
+                path: ${{inputs.output-path}}

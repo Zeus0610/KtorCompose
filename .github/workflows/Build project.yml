@@ -1,0 +1,53 @@
+name: Build project
+
+env:
+  ktor_static_path: ./ktorServer/src/main/resources/static/wasm/
+  ktor_production_output_path: ./ktorServer/build/distributions/ktorServer-0.0.1.zip
+  apk_output_path: ./composeApp/build/outputs/apk/debug/
+  ktor_assemble: :ktorServer:assemble
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build-front:
+      uses: Zeus0610/KtorCompose/.github/workflows/build-and-upload-artifact.yml@master
+      with:
+        gradle-build-task: ':composeApp:wasmjsBrowserDistribution'
+        output-path: './composeApp/build/dist/wasmJs/productionExecutable/'
+        artifact-name: ${{vars.WASM_ARTIFACT}}
+
+    build-server: 
+        needs: build-front
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: setup java
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'corretto'
+                java-version: '17'
+                cache: 'gradle'
+            - name: Change wrapper permissions
+              run:  chmod +x ./gradlew
+            - name: Download front artifact
+              uses: actions/download-artifact@v4.1.8
+              with: 
+                name: ${{vars.WASM_ARTIFACT}}
+                path: ${{env.ktor_static_path}}
+            - name: Display structure of downloaded files
+              run: ls -R ${{env.ktor_static_path}}
+            - name: Assemble ktor server with front wasm
+              run: ./gradlew ${{env.ktor_assemble}}
+            - name: Upload server artifact
+              uses: actions/upload-artifact@v4.4.0
+              with: 
+                name: ${{vars.KTOR_ARTIFACT}}
+                path: ${{env.ktor_production_output_path}}
+    build-android-apk:
+        uses: Zeus0610/KtorCompose/.github/workflows/build-and-upload-artifact.yml@master
+        with:
+          gradle-build-task: ':composeApp:assembleDebug'
+          output-path: './composeApp/build/outputs/apk/debug/'
+          artifact-name: ${{vars.ANDROID_APK}}
