@@ -145,7 +145,7 @@ android {
         buildConfig = true
     }
     dependencies {
-        debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
+        debugImplementation(libs.androidx.ui.tooling)
     }
 }
 
@@ -155,7 +155,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.zeus.compose"
+            packageName = "KtorCompose"
             packageVersion = "1.0.0"
         }
     }

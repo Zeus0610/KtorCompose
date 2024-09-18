@@ -7,12 +7,11 @@ import io.ktor.server.routing.*
 
 fun Application.frontModule() {
     routing {
-        staticResources("/", "static") {
-            //default("index.html")
+        staticResources("/", "static/wasm") {
             preCompressed(CompressedFileType.GZIP)
         }
         staticResources("mani", "static") {
-            default("mani.jpg",)
+            default("mani.jpg")
             contentType {
                 ContentType.Image.JPEG
             }

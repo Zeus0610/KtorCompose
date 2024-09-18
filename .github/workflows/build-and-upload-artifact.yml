@@ -4,12 +4,15 @@ on:
     workflow_call:
         inputs:
             gradle-build-task:
+                description: 'Gradle task to build'
                 required: true
                 type: string
             output-path:
+              description: 'Expected artifact output path'
               required: true
               type: string
             artifact-name:
+              description: 'Artifact name to upload'
               required: true
               type: string
 

@@ -1,7 +1,7 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 kotlin = "2.0.20"
-ktor = "3.0.0-beta-2"
+ktor = "3.0.0-rc-1"
 compose-plugin = "1.6.11"
 postgresql = "42.7.3"
 exposed = "0.50.1"
@@ -11,10 +11,11 @@ logging-interceptor = "4.12.0"
 coil = "3.0.0-alpha10"
 media3 = "1.4.1"
 navigation = "2.7.0-alpha03"
-lifecyle = "2.8.5"
+lifecyle = "2.8.6"
 jetbrains-lifecycle = "2.8.0-beta02"
-kotlin-serialization = "1.7.0-RC"
+kotlin-serialization = "1.7.2"
 coroutines = "1.8.1"
+ui-tooling = "1.7.2"
 vlcj = "4.8.3"
 
 
@@ -29,18 +30,19 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [libraries]
-ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
-ktor-server-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
-ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "ui-tooling" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
 ktor-server-partialContent = { module = "io.ktor:ktor-server-partial-content", version.ref = "ktor" }
 ktor-server-autoHeadResponse = { module = "io.ktor:ktor-server-auto-head-response", version.ref = "ktor" }
-ktor-server-serializationGson = { module = "io.ktor:ktor-serialization-gson-jvm", version.ref = "ktor" }
-ktor-server-sessions = { module = "io.ktor:ktor-server-sessions-jvm", version.ref = "ktor" }
-ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
-ktor-server-jwt = { module = "io.ktor:ktor-server-auth-jwt-jvm", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+ktor-server-serializationGson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
+ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 postgress = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }

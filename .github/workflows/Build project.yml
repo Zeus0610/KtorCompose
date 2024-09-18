@@ -3,11 +3,13 @@ name: Build project
 env:
   ktor_static_path: ./ktorServer/src/main/resources/static/wasm/
   ktor_production_output_path: ./ktorServer/build/distributions/ktorServer-0.0.1.zip
-  apk_output_path: ./composeApp/build/outputs/apk/debug/
-  ktor_assemble: :ktorServer:assemble
+  ktor_assemble_task: :ktorServer:assemble
 
 on:
     workflow_dispatch:
+    push:
+      branches:
+        - 'release/**'
 
 jobs:
     build-front:
@@ -39,15 +41,23 @@ jobs:
             - name: Display structure of downloaded files
               run: ls -R ${{env.ktor_static_path}}
             - name: Assemble ktor server with front wasm
-              run: ./gradlew ${{env.ktor_assemble}}
+              run: ./gradlew ${{env.ktor_assemble_task}}
             - name: Upload server artifact
               uses: actions/upload-artifact@v4.4.0
               with: 
                 name: ${{vars.KTOR_ARTIFACT}}
                 path: ${{env.ktor_production_output_path}}
+
     build-android-apk:
         uses: Zeus0610/KtorCompose/.github/workflows/build-and-upload-artifact.yml@master
         with:
           gradle-build-task: ':composeApp:assembleDebug'
           output-path: './composeApp/build/outputs/apk/debug/'
           artifact-name: ${{vars.ANDROID_APK}}
+
+    build-desktop:
+        uses: Zeus0610/KtorCompose/.github/workflows/build-and-upload-artifact.yml@master
+        with:
+          gradle-build-task: ':composeApp:createDistributable'
+          output-path: './composeApp/build/compose/binaries/main/app/KtorCompose/'
+          artifact-name: ${{vars.DESKTOP_ARTIFACT}}
